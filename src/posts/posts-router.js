@@ -24,27 +24,27 @@ postsRouter
       })
       .catch(next)
   })
-// .post(jsonParser, (req, res, next) => {
-//   const { title, content, style, author } = req.body
-//   const newArticle = { title, content, style }
+  .post(jsonParser, (req, res, next) => {
+    const { title, summary, post_type /* , author */ } = req.body
+    const newPost = { title, summary, post_type }
 
-//   for (const [key, value] of Object.entries(newArticle))
-//     if (value == null)
-//       return res.status(400).json({
-//         error: { message: `Missing '${key}' in request body` }
-//       })
-//   newArticle.author = author
-//   ArticlesService.insertArticle(
-//     req.app.get('db'),
-//     newArticle
-//   )
-//     .then(article => {
-//       res
-//         .status(201)
-//         .location(path.posix.join(req.originalUrl, `/${article.id}`))
-//         .json(serializeArticle(article))
-//     })
-//     .catch(next)
-//})
+    for (const [key, value] of Object.entries(newPost))
+      if (value == null)
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+    //newArticle.author = author
+    PostsService.insertPost(
+      req.app.get('db'),
+      newPost
+    )
+      .then(post => {
+        res
+          .status(201)
+          .location(path.posix.join(req.originalUrl, `/${post.id}`))
+          .json(serializePost(post))
+      })
+      .catch(next)
+  })
 
 module.exports = postsRouter
