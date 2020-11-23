@@ -15,6 +15,7 @@ const serializePost = post => ({
   date_published: post.date_published
 })
 
+
 postsRouter
   .route('/')
   .get((req, res, next) => {
@@ -26,7 +27,7 @@ postsRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, summary, post_type/* , author */ } = req.body
+    const { title, summary, post_type  /* , author */ } = req.body
     const newPost = { title, summary, post_type }
 
     for (const [key, value] of Object.entries(newPost))
