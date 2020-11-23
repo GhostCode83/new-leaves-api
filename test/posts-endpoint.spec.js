@@ -78,6 +78,72 @@ describe.only('Posts Endpoints', () => {
 
     })
   })
+
+  describe(`DELETE /api/posts/:post_id`, () => {
+    context(`given no posts`, () => {
+      it(`responds with 404`, () => {
+        const postId = 999999
+        return supertest(app)
+          .delete(`/api/posts/${postId}`)
+          .expect(404)
+      })
+    })
+
+    context(`given there are posts in the table`, () => {
+      const testPosts = makePostsArray()
+
+      beforeEach('insert posts', () => {
+        return db
+          .into('new_leaves_posts')
+          .insert(testPosts)
+      })
+
+      it(`responds with 204 and deletes the post`, () => {
+        const idToRemove = 2;
+        const expectedPosts = testPosts.filter(post => post.id !== idToRemove)
+
+        return supertest(app)
+          .delete(`/api/posts/${idToRemove}`)
+          .expect(204)
+          .then(res => {
+            supertest(app)
+              .get(`/api/posts`)
+              .expect(expectedPosts)
+          })
+      })
+    })
+  })
+
+  // describe(`GET /api/posts/:post_id`, () => {
+  //   context(`given no post`, () => {
+  //     it(`responds with 200 and an empty list`, () => {
+  //       return supertest(app)
+  //         .get('/api/posts/:post_id')
+  //         .expect(200, [])
+  //     })
+  //   })
+
+  //   context(`Given there are posts in the database`, () => {
+  //     const testPosts = makePostsArray();
+
+  //     beforeEach('insert posts', () => {
+  //       return db
+  //         .into('new_leaves_posts')
+  //         .insert(testPosts)
+  //     })
+
+  //     it('responds with 200 and the post', () => {
+  //       return supertest(app)
+  //         .get('/api/posts/:post_id')
+  //         .expect(200)
+  //         .expect(response => {
+  //           expect(response.body).to.be.a('object')
+  //           expect(response.body[i]).to.include.keys('title', 'summary', 'id', 'date_published')
+  //         })
+  //     })
+  //   })
+  // })
+
+
+
 })
-
-

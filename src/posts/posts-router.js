@@ -11,6 +11,7 @@ const serializePost = post => ({
   id: post.id,
   title: xss(post.title),
   summary: xss(post.summary),
+  post_type: post.post_type,
   date_published: post.date_published
 })
 
@@ -25,7 +26,7 @@ postsRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { title, summary, post_type /* , author */ } = req.body
+    const { title, summary, post_type/* , author */ } = req.body
     const newPost = { title, summary, post_type }
 
     for (const [key, value] of Object.entries(newPost))
@@ -43,6 +44,44 @@ postsRouter
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${post.id}`))
           .json(serializePost(post))
+      })
+      .catch(next)
+  })
+
+postsRouter
+  .route('/:post_id')
+  .all((req, res, next) => {
+    PostsService.getById(
+      req.app.get('db'),
+      req.params.post_id
+    )
+      .then(post => {
+        if (!post) {
+          return res.status(404).json({
+            error: { message: `Article doesn't exist` }
+          })
+        }
+        res.post = post // save the article for the next middleware
+        next() // don't forget to call next so the next middleware happens!
+      })
+      .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json({
+      id: res.post.id,
+      title: xss(res.post.title),
+      summary: xss(res.post.summary),
+      post_type: res.post.post_type,
+      date_published: res.post.date_published
+    })
+  })
+  .delete((req, res, next) => {
+    PostsService.deletePost(
+      req.app.get('db'),
+      req.params.post_id
+    )
+      .then(() => {
+        res.status(204).end()
       })
       .catch(next)
   })

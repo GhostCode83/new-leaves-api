@@ -1,7 +1,9 @@
 CREATE TYPE post_category AS ENUM (
     'Holiday',
     'Adaptation',
-    'Family'
+    'Family',
+    'Food',
+    'Clothing'
 );
 
 ALTER TABLE new_leaves_posts
