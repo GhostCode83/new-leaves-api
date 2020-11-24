@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS new_leaves_posts;

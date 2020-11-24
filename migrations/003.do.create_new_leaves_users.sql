@@ -8,7 +8,7 @@ CREATE TABLE new_leaves_users (
 
 
 
-ALTER TABLE new_leaves_posts
+ALTER TABLE new_leaves_articles
   ADD COLUMN
     author INTEGER REFERENCES new_leaves_users(id)
     ON DELETE SET NULL;

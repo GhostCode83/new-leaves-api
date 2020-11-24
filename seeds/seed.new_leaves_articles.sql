@@ -1,4 +1,4 @@
-INSERT INTO new_leaves_posts (title, summary, post_type, date_published)
+INSERT INTO new_leaves_articles (title, summary, article_type, date_published)
 VALUES 
   ('How My Family Celebrates Winnie-The-Pooh Day!!!',
     'Praesent sagittis a mi sit amet dictum. 

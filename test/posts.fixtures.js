@@ -1,4 +1,4 @@
-function makePostsArray() {
+function makeArticlesArray() {
   return [
     {
       title: 'How My Family Celebrates Winnie-The-Pooh Day!!!',
@@ -9,7 +9,7 @@ function makePostsArray() {
       Suspendisse a tempus dolor. 
       Nullam porttitor nisi sed justo dictum consequat. 
       Etiam sed congue felis.`,
-      post_type: 'Holiday'
+      article_type: 'Holiday'
     },
     {
       title: 'Hack for After Dinner Cleanup',
@@ -21,7 +21,7 @@ function makePostsArray() {
       Sapien pellentesque habitant morbi tristique senectus. 
       Sed felis eget velit aliquet sagittis id consectetur purus ut. Cursus vitae congue mauris rhoncus. 
       Praesent tristique magna sit amet purus gravida quis blandit turpis.`,
-      post_type: 'Family'
+      article_type: 'Family'
     },
     {
       title: 'Driving My Kids, Without Being Driven Crazy!',
@@ -33,11 +33,11 @@ function makePostsArray() {
       Orci a scelerisque purus semper eget duis at tellus at. Nisi est sit amet facilisis magna etiam tempor orci eu. 
       Eu sem integer vitae justo eget magna fermentum iaculis. Pellentesque sit amet porttitor eget dolor morbi non arcu. 
       Non odio euismod lacinia at quis risus. Eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus.`,
-      post_type: 'Adaptation'
+      article_type: 'Adaptation'
     }
   ]
 }
 
 module.exports = {
-  makePostsArray
+  makeArticlesArray
 }

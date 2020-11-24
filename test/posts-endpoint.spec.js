@@ -2,9 +2,9 @@ const { expect } = require('chai')
 const knex = require('knex')
 const supertest = require('supertest')
 const app = require('../src/app')
-const { makePostsArray } = require('./posts.fixtures')
+const { makeArticlesArray } = require('./articles.fixtures')
 
-describe.only('Posts Endpoints', () => {
+describe.only('Articles Endpoints', () => {
   let db
 
   before('make knex instance', () => {
@@ -17,30 +17,30 @@ describe.only('Posts Endpoints', () => {
   })
 
 
-  before('clean the table', () => db.raw('TRUNCATE new_leaves_posts RESTART IDENTITY CASCADE'))
+  before('clean the table', () => db.raw('TRUNCATE new_leaves_articles RESTART IDENTITY CASCADE'))
   after('disconnect from db', () => db.destroy())
 
-  describe(`GET /api/posts`, () => {
-    context(`given no posts`, () => {
+  describe(`GET /api/articles`, () => {
+    context(`given no articles`, () => {
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
-          .get('/api/posts')
+          .get('/api/articles')
           .expect(200, [])
       })
     })
 
-    context(`Given there are posts in the database`, () => {
-      const testPosts = makePostsArray();
+    context(`Given there are articles in the database`, () => {
+      const testArticles = makeArticlesArray();
 
-      beforeEach('insert posts', () => {
+      beforeEach('insert articles', () => {
         return db
-          .into('new_leaves_posts')
-          .insert(testPosts)
+          .into('new_leaves_articles')
+          .insert(testArticles)
       })
 
-      it('responds with 200 and all of the posts', () => {
+      it('responds with 200 and all of the articles', () => {
         return supertest(app)
-          .get('/api/posts')
+          .get('/api/articles')
           .expect(200)
           .expect(response => {
             expect(response.body).to.be.a('array')
@@ -53,97 +53,66 @@ describe.only('Posts Endpoints', () => {
     })
   })
 
-  describe(`POST /api/posts`, () => {
-    it(`creates a post, responding with 201 and a new post`, () => {
-      const newPost = {
-        title: 'this is the newPost title',
-        summary: 'this is the newPost summary',
-        post_type: 'Family'
+  describe(`POST /api/articles`, () => {
+    it(`creates a article, responding with 201 and a new article`, () => {
+      const newArticle = {
+        title: 'this is the newArticle title',
+        summary: 'this is the newArticle summary',
+        article_type: 'Family'
       }
       return supertest(app)
-        .post('/api/posts')
-        .send(newPost)
+        .article('/api/articles')
+        .send(newArticle)
         .expect(201)
         .expect(res => {
-          expect(res.body.title).to.eql(newPost.title)
-          expect(res.body.summary).to.eql(newPost.summary)
+          expect(res.body.title).to.eql(newArticle.title)
+          expect(res.body.summary).to.eql(newArticle.summary)
           expect(res.body).to.have.property('id')
-          expect(res.headers.location).to.eql(`/api/posts/${res.body.id}`)
+          expect(res.headers.location).to.eql(`/api/articles/${res.body.id}`)
         })
         .then(res => {
           supertest(app)
-            .get(`/api/posts/${res.body.id}`)
+            .get(`/api/articles/${res.body.id}`)
             .expect(res.body)
         })
 
     })
   })
 
-  describe(`DELETE /api/posts/:post_id`, () => {
-    context(`given no posts`, () => {
+  describe(`DELETE /api/articles/:article_id`, () => {
+    context(`given no articles`, () => {
       it(`responds with 404`, () => {
-        const postId = 999999
+        const articleId = 999999
         return supertest(app)
-          .delete(`/api/posts/${postId}`)
+          .delete(`/api/articles/${articleId}`)
           .expect(404)
       })
     })
 
-    context(`given there are posts in the table`, () => {
-      const testPosts = makePostsArray()
+    context(`given there are articles in the table`, () => {
+      const testArticles = makeArticlesArray()
 
-      beforeEach('insert posts', () => {
+      beforeEach('insert articles', () => {
         return db
-          .into('new_leaves_posts')
-          .insert(testPosts)
+          .into('new_leaves_articles')
+          .insert(testArticles)
       })
 
-      it(`responds with 204 and deletes the post`, () => {
+      it(`responds with 204 and deletes the article`, () => {
         const idToRemove = 2;
-        const expectedPosts = testPosts.filter(post => post.id !== idToRemove)
+        const expectedArticles = testArticles.filter(article => article.id !== idToRemove)
 
         return supertest(app)
-          .delete(`/api/posts/${idToRemove}`)
+          .delete(`/api/articles/${idToRemove}`)
           .expect(204)
           .then(res => {
             supertest(app)
-              .get(`/api/posts`)
-              .expect(expectedPosts)
+              .get(`/api/articles`)
+              .expect(expectedArticles)
           })
       })
     })
   })
-
-  // describe(`GET /api/posts/:post_id`, () => {
-  //   context(`given no post`, () => {
-  //     it(`responds with 200 and an empty list`, () => {
-  //       return supertest(app)
-  //         .get('/api/posts/:post_id')
-  //         .expect(200, [])
-  //     })
-  //   })
-
-  //   context(`Given there are posts in the database`, () => {
-  //     const testPosts = makePostsArray();
-
-  //     beforeEach('insert posts', () => {
-  //       return db
-  //         .into('new_leaves_posts')
-  //         .insert(testPosts)
-  //     })
-
-  //     it('responds with 200 and the post', () => {
-  //       return supertest(app)
-  //         .get('/api/posts/:post_id')
-  //         .expect(200)
-  //         .expect(response => {
-  //           expect(response.body).to.be.a('object')
-  //           expect(response.body[i]).to.include.keys('title', 'summary', 'id', 'date_published')
-  //         })
-  //     })
-  //   })
-  // })
-
 
 
 })

@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
-const postsRouter = require('./posts/posts-router')
+const articlesRouter = require('./articles/articles-router')
 
 const app = express()
 
@@ -16,7 +16,7 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
-app.use('/api/articles', postsRouter)
+app.use('/api/articles', articlesRouter)
 
 app.get('/', (req, res) => {
   res.send('Hello, world!')
