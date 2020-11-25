@@ -20,7 +20,7 @@ console.log(serializeArticle)
 articlesRouter
   .route('/')
   .get((req, res, next) => {
-    console.log(req, res, next)
+
 
     const knexInstance = req.app.get('db')
     console.log(knexInstance)
@@ -32,7 +32,7 @@ articlesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    console.log(req, res, next)
+
 
     const { title, summary, article_type  /* , author */ } = req.body
     console.log(title, summary, article_type)
@@ -62,7 +62,7 @@ articlesRouter
 articlesRouter
   .route('/:article_id')
   .all((req, res, next) => {
-    console.log(req, res, next)
+
     console.log(req.app.get('db'),
       req.params.article_id)
 
@@ -83,7 +83,7 @@ articlesRouter
       .catch(next)
   })
   .get((req, res, next) => {
-    console.log(req, res, next)
+
 
     res.json({
       id: res.article.id,
@@ -101,7 +101,7 @@ articlesRouter
     }))
   })
   .delete((req, res, next) => {
-    console.log(req, res, next)
+
     console.log(req.app.get('db'),
       req.params.article_id)
     ArticlesService.deleteArticle(
@@ -115,7 +115,7 @@ articlesRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-    console.log(req, res, next)
+
 
     const { title, summary, article_type } = req.body
     const articleToUpdate = { title, summary, article_type }
