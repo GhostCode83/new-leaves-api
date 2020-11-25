@@ -3,9 +3,9 @@ CREATE TABLE new_leaves_users (
   fullname TEXT NOT NULL,
   username TEXT NOT NULL UNIQUE,
   password TEXT,
-  date_created TIMESTAMPTZ DEFAULT now() NOT NULL
+  date_created TIMESTAMPTZ DEFAULT now() NOT NULL,
+  flagged BOOLEAN 
 );
-
 
 
 ALTER TABLE new_leaves_articles
