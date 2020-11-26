@@ -115,8 +115,8 @@ articlesRouter
       })
       .catch(next)
   })
-console.log(6)
   .patch(jsonParser, (req, res, next) => {
+    console.log(6)
 
 
     const { title, summary, article_type } = req.body
