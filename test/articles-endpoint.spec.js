@@ -3,9 +3,19 @@ const knex = require('knex')
 const supertest = require('supertest')
 const app = require('../src/app')
 const { makeArticlesArray } = require('./articles.fixtures')
+const { makeAuthHeader } = require('./test-helpers')
+const helpers = require('./test-helpers')
 
-describe.only('Articles Endpoints', () => {
+
+describe('Articles Endpoints', () => {
   let db
+
+  const {
+    testUsers,
+    testArticles,
+    //testComments,
+  } = helpers.makeArticlesFixtures()
+
 
   before('make knex instance', () => {
     db = knex({
@@ -53,6 +63,41 @@ describe.only('Articles Endpoints', () => {
     })
   })
 
+  describe.only(`GET /api/articles/:article_id`, () => {
+    context(`Given no article`, () => {
+      beforeEach(() =>
+        db.into('new_leaves_users').insert(testUsers)
+      )
+      it(`responds with 404`, () => {
+        const articleId = 123456
+        return supertest(app)
+          .get(`/api/articles/${articleId}`)
+          .set('Authorization', makeAuthHeader(testUsers[0]))
+          .expect(404, { error: { message: `Article doesn't exist` } })
+      })
+    })
+
+    context('Given there are articles in the database', () => {
+      beforeEach('insert articles', () =>
+        helpers.seedArticlesTables(
+          db,
+          testUsers,
+          testArticles,
+          //testComments,
+        )
+      )
+
+      it('responds with 200 and the specified article', () => {
+        const articleId = 2
+        const expectedArticle = helpers.makeExpectedArticle(
+          testUsers,
+          testArticles[articleId - 1],
+          //testComments,
+        )
+      })
+    })
+
+  })
   describe(`POST /api/articles`, () => {
     it(`creates a article, responding with 201 and a new article`, () => {
       const newArticle = {
@@ -61,7 +106,7 @@ describe.only('Articles Endpoints', () => {
         article_type: 'Family'
       }
       return supertest(app)
-        .article('/api/articles')
+        .post('/api/articles')
         .send(newArticle)
         .expect(201)
         .expect(res => {
@@ -113,6 +158,4 @@ describe.only('Articles Endpoints', () => {
       })
     })
   })
-
-
 })

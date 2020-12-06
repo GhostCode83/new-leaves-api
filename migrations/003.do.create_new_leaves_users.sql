@@ -4,7 +4,8 @@ CREATE TABLE new_leaves_users (
   username TEXT NOT NULL UNIQUE,
   password TEXT,
   date_created TIMESTAMPTZ DEFAULT now() NOT NULL,
-  flagged BOOLEAN 
+  date_modified TIMESTAMPTZ,
+  flagged INTEGER DEFAULT 0
 );
 
 

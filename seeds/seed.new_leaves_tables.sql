@@ -1,3 +1,21 @@
+BEGIN;
+
+TRUNCATE
+  new_leaves_comments,
+  new_leaves_articles,
+  new_leaves_users
+  RESTART IDENTITY CASCADE;
+
+INSERT INTO new_leaves_users (username, fullname, password)
+VALUES
+  ('dunder', 'Dunder Mifflin', 'password'),
+  ('Account1', 'Account One', '123abc$'),
+   ('b.deboop', 'Bodeep Deboop', 'bo-password'),
+  ('c.bloggs', 'Charlie Bloggs', 'charlie-password'),
+  ('s.smith', 'Sam Smith', 'sam-password'),
+  ('lexlor', 'Alex Taylor',  'lex-password'),
+  ('wippy', 'Ping Won In',  'ping-password');
+  
 INSERT INTO new_leaves_articles (title, summary, article_type, date_published)
 VALUES 
   ('How My Family Celebrates Winnie-The-Pooh Day!!!',
@@ -32,3 +50,111 @@ VALUES
       Non odio euismod lacinia at quis risus. Eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus.',
      'Adaptation',
      '2100-05-22T16:28:32.615Z');
+
+     INSERT INTO new_leaves_comments (
+  text,
+  article_id,
+  user_id
+) VALUES
+  (
+    'This post is amazing',
+    1,
+    2
+  ),
+  (
+    'Yeh I agree it''s amazing',
+    1,
+    3
+  ),
+  (
+    'I would go so far as to say it''s double amazing',
+    1,
+    4
+  ),
+  (
+    'A-mazing!',
+    1,
+    5
+  ),
+  (
+    'That''s some interesting lorems you raise',
+    2,
+    6
+  ),
+  (
+    'Yeh totally I''d never thought about lorems like that before',
+    2,
+    1
+  ),
+  (
+    'So you''re saying consectetur adipisicing elit?',
+    2,
+    3
+  ),
+  (
+    'Sixth? You mean sith?!!',
+    1,
+    6
+  ),
+  (
+    'What do you call an evil procrastinator? Darth Later! Hahahahaha!',
+    1,
+    4
+  ),
+  (
+    'Ten ten ten ten ten ten ten!',
+    1,
+    3
+  ),
+  (
+    'Iste, architecto obcaecati tenetur quidem voluptatum ipsa quam!!!',
+    1,
+    5
+  ),
+  (
+    '5, 6, 7, 8! My boot-scootin'' baby is drivin'' me crazy...!',
+    1,
+    1
+  ),
+  (
+    'My obsession from a western! My dance floor date',
+    1,
+    2
+  ),
+  (
+    'My rodeo Romeo. A cowboy god from head to toe',
+    1,
+    3
+  ),
+  (
+    'Wanna make you mine. Better get in line. 5, 6, 7, 8!',
+    1,
+    4
+  ),
+  (
+    'Just a lonely comment',
+    3,
+    6
+  ),
+  (
+    'Really? Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris??!',
+    3,
+    5
+  ),
+  (
+    'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris for sure!!',
+    3,
+    1
+  ),
+  (
+    'WOAH!!!!!',
+    2,
+    2
+  ),
+  (
+    '°º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸',
+    2,
+    4
+  );
+
+COMMIT;

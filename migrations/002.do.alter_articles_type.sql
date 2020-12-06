@@ -3,7 +3,8 @@ CREATE TYPE article_category AS ENUM (
     'Adaptation',
     'Family',
     'Food',
-    'Clothing'
+    'Clothing',
+    'Daily Practice'
 );
 
 ALTER TABLE new_leaves_articles

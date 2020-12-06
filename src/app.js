@@ -5,6 +5,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const articlesRouter = require('./articles/articles-router')
+const { requireAuth } = require('./middleware/basic-auth')
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
+// app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
 
 app.get('/', (req, res) => {

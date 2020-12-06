@@ -3,6 +3,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const ArticlesService = require('./articles-service')
+const { requireAuth } = require('../middleware/basic-auth')
 
 const articlesRouter = express.Router()
 const jsonParser = express.json()
@@ -15,12 +16,11 @@ const serializeArticle = article => ({
   date_published: article.date_published
 })
 
-console.log(serializeArticle)
 
 articlesRouter
   .route('/')
+  .all(requireAuth)
   .get((req, res, next) => {
-
 
     const knexInstance = req.app.get('db')
     ArticlesService.getAllArticles(knexInstance)
@@ -61,6 +61,7 @@ articlesRouter
 
 articlesRouter
   .route('/:article_id')
+  .all(requireAuth)
   .all((req, res, next) => {
     console.log(3)
     console.log(req.app.get('db'),
@@ -83,8 +84,6 @@ articlesRouter
       .catch(next)
   })
   .get((req, res, next) => {
-
-
     res.json({
       id: res.article.id,
       title: xss(res.article.title),
