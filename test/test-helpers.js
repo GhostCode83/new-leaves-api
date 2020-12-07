@@ -2,25 +2,21 @@ function makeUsersArray() {
   return [
     {
       fullname: 'Test-user-1',
-      id: 1,
       password: 'password',
       username: 'test-user-1',
     },
     {
       fullname: 'Test-user-2',
-      id: 2,
       password: 'password',
       username: 'test-user-2',
     },
     {
       fullname: 'Test-user-3',
-      id: 3,
       password: 'password',
       username: 'test-user-3',
     },
     {
       fullname: 'Test-user-4',
-      id: 4,
       password: 'password',
       username: 'test-user-4',
     },
@@ -30,34 +26,30 @@ function makeUsersArray() {
 function makeArticlesArray(author) {
   return [
     {
-      id: 1,
       title: 'First test thing!',
       article_type: 'Holiday',
-      author: author[0].id,
+      author: 1,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      id: 2,
       title: 'Second test thing!',
       article_type: 'Daily Practice',
-      author: author[1].id,
+      author: 2,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      id: 3,
       title: 'Third test thing!',
       article_type: 'Family',
-      author: author[2].id,
+      author: 3,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      id: 4,
       title: 'Fourth test thing!',
       article_type: 'Adaptation',
-      author: author[3].id,
+      author: 4,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },

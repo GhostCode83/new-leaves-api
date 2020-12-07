@@ -2,6 +2,7 @@ function requireAuth(req, res, next) {
   const authToken = req.get('Authorization') || ''
 
   let basicToken
+  console.log(authToken)
   if (!authToken.toLowerCase().startsWith('basic ')) {
     return res.status(401).json({ error: 'Missing basic token' })
   } else {
@@ -22,8 +23,11 @@ function requireAuth(req, res, next) {
     .where({ username: tokenUserName })
     .first()
     .then(user => {
+      console.log(user, tokenUserName, tokenPassword)
       if (!user || user.password !== tokenPassword) {
+
         return res.status(401).json({ error: 'Unauthorized request' })
+
       }
       next()
     })

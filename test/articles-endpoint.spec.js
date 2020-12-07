@@ -27,7 +27,7 @@ describe('Articles Endpoints', () => {
   })
 
 
-  before('clean the table', () => db.raw('TRUNCATE new_leaves_articles RESTART IDENTITY CASCADE'))
+  beforeEach('clean the table', () => db.raw('TRUNCATE new_leaves_articles, new_leaves_users RESTART IDENTITY CASCADE'))
   after('disconnect from db', () => db.destroy())
 
   describe(`GET /api/articles`, () => {

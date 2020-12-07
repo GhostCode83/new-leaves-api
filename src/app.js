@@ -17,7 +17,7 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
-// app.use(requireAuth)
+app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
 
 app.get('/', (req, res) => {
