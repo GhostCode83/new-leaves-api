@@ -8,13 +8,13 @@ TRUNCATE
 
 INSERT INTO new_leaves_users (username, fullname, password)
 VALUES
-  ('dunder', 'Dunder Mifflin', 'password'),
-  ('Account1', 'Account One', '123abc$'),
-   ('b.deboop', 'Bodeep Deboop', 'bo-password'),
-  ('c.bloggs', 'Charlie Bloggs', 'charlie-password'),
-  ('s.smith', 'Sam Smith', 'sam-password'),
-  ('lexlor', 'Alex Taylor',  'lex-password'),
-  ('wippy', 'Ping Won In',  'ping-password');
+  ('dunder', 'Dunder Mifflin', '$2a$12$h89D/xSd.933Z2kDVEiY4OAbikuNoeuTXzIZWaJpBArHsuIzkZVg6'),
+  ('Account1', 'Account One', '$2a$12$HVOt0M/MQqhXvkn4dYboYuNIUKNIbAJrw8O23bo8h5nFSPHnrs8Bi'),
+   ('b.deboop', 'Bodeep Deboop', '$2a$12$hqZ5WhsgY59P3j/d7/lL4.T28LtfoS3RkvAKvBm4ih98US6q4K./6'),
+  ('c.bloggs', 'Charlie Bloggs', '$2a$12$sUBUcnyu.TF0V6CKw/O9d.mYvZmyzPcCI87sDgVqjdDXQhQgM/ZT2'),
+  ('s.smith', 'Sam Smith', '$2a$12$tY/gWPvbkwKrhfWuNtnjMuaXQVS26.JlVt9H0/z3bfc2ZCOhgxGD2'),
+  ('lexlor', 'Alex Taylor',  '$2a$12$lVPgWxM9WFY0V9pVE3ArnueyHHJ0HGeo03LU..wBIsbTiVb0TCiLy'),
+  ('wippy', 'Ping Won In',  '$2a$12$qgLOXd.fF/UAuVe9qcs7pOOwC6DJzom3xgqjooRVL3n4mFeRAKI6m');
   
 INSERT INTO new_leaves_articles (title, summary, article_type, date_published)
 VALUES 

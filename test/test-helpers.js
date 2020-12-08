@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs')
+
 function makeUsersArray() {
   return [
     {
@@ -206,24 +208,43 @@ function cleanTables(db) {
   )
 }
 
-function seedArticlesTables(db, users, articles = []) {
-  return db
-    .into('new_leaves_users')
-    .insert(users)
+function seedUsers(db, users) {
+  const preppedUsers = users.map(user => ({
+    ...user,
+    password: bcrypt.hashSync(user.password, 1)
+  }))
+  return db.into('new_leaves_users').insert(preppedUsers)
     .then(() =>
-      db
-        .into('new_leaves_articles')
-        .insert(articles)
+      db.raw(
+        `SELECT setval('new_leaves_users_id_seq', ?)`,
+        [users[users.length - 1].id],
+      )
     )
-  // .then(() =>
-  //   comments.length && db.into('thingful_comments').insert(comments)
-  // )
 }
 
+function seedArticlesTables(db, users, articles, /*comments = []*/) {
+  return db.transaction(async trx => {
+    await seedUsers(trx, users)
+    await trx.into('new_leaves_articles').insert(articles)
+    await trx.raw(
+      `SELECT setval('new_leaves_articles_id_seq', ?)`,
+      [articles[articles.length - 1].id],
+    )
+    // if (comments.length) {
+    //   await trx.into('blogful_comments').insert(comments)
+    //   await trx.raw(
+    //     `SELECT setval('blogful_comments_id_seq', ?)`,
+    //     [comments[comments.length - 1].id],
+    //   )
+    // }
+  }
+  )
+}
+
+
+
 function seedMaliciousArticles(db, user, article) {
-  return db
-    .into('new_leaves_users')
-    .insert([user])
+  return seedUsers(db, [user])
     .then(() =>
       db
         .into('new_leaves_articles')
@@ -249,5 +270,6 @@ module.exports = {
   seedArticlesTables,
   seedMaliciousArticles,
   makeAuthHeader,
+  seedUsers,
 }
 

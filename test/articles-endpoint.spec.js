@@ -66,7 +66,7 @@ describe('Articles Endpoints', () => {
   describe.only(`GET /api/articles/:article_id`, () => {
     context(`Given no article`, () => {
       beforeEach(() =>
-        db.into('new_leaves_users').insert(testUsers)
+        helpers.seedUsers(db, testUsers)
       )
       it(`responds with 404`, () => {
         const articleId = 123456
@@ -96,8 +96,8 @@ describe('Articles Endpoints', () => {
         )
       })
     })
-
   })
+
   describe(`POST /api/articles`, () => {
     it(`creates a article, responding with 201 and a new article`, () => {
       const newArticle = {
@@ -120,7 +120,6 @@ describe('Articles Endpoints', () => {
             .get(`/api/articles/${res.body.id}`)
             .expect(res.body)
         })
-
     })
   })
 
@@ -158,4 +157,12 @@ describe('Articles Endpoints', () => {
       })
     })
   })
+
+  // describe(`GET /api/articles/:article_id/comments`, () => {
+  //   context(`Given no articles`, () => {
+  //     beforeEach(() =>
+  //       helpers.seedUsers(db, testUsers)
+  //     )
+  //   })
+  // })
 })
