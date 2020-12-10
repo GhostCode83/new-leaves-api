@@ -72,7 +72,7 @@ describe('Articles Endpoints', () => {
         const articleId = 123456
         return supertest(app)
           .get(`/api/articles/${articleId}`)
-          .set('Authorization', makeAuthHeader(testUsers[0]))
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: { message: `Article doesn't exist` } })
       })
     })
