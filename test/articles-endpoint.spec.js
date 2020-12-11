@@ -54,7 +54,7 @@ describe('Articles Endpoints', () => {
           .expect(200)
           .expect(response => {
             expect(response.body).to.be.a('array')
-            console.log(response.body)
+            // console.log(response.body)
             for (let i = 0; i < response.body.length; i++) {
               expect(response.body[i]).to.include.keys('title', 'summary', 'id', 'date_published')
             }
@@ -88,12 +88,19 @@ describe('Articles Endpoints', () => {
       )
 
       it('responds with 200 and the specified article', () => {
+        console.log("XXXXXXXXXX")
         const articleId = 2
+        console.log(articleId)
         const expectedArticle = helpers.makeExpectedArticle(
           testUsers,
           testArticles[articleId - 1],
           //testComments,
         )
+        console.log(expectedArticle)
+        return supertest(app)
+          .get(`/api/articles/${articleId}`)
+          .set('Authorization', makeAuthHeader(testUsers[0]))
+          .expect(200, expectedArticle)
       })
     })
   })

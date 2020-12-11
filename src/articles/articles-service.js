@@ -12,7 +12,6 @@ const ArticlesService = {
       })
   },
   getById(knex, id) {
-    // console.log('----')
     return knex
       .from('new_leaves_articles')
       .select('*')

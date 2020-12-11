@@ -3,21 +3,25 @@ const bcrypt = require('bcryptjs')
 function makeUsersArray() {
   return [
     {
+      id: 1,
       fullname: 'Test-user-1',
       password: 'password',
       username: 'test-user-1',
     },
     {
+      id: 2,
       fullname: 'Test-user-2',
       password: 'password',
       username: 'test-user-2',
     },
     {
+      id: 3,
       fullname: 'Test-user-3',
       password: 'password',
       username: 'test-user-3',
     },
     {
+      id: 4,
       fullname: 'Test-user-4',
       password: 'password',
       username: 'test-user-4',
@@ -122,7 +126,7 @@ function makeArticlesArray(author) {
 function makeExpectedArticle(users, article = []) {
   const user = users
     .find(user => user.id === article.user_id)
-
+  console.log("000000000", user)
   // const thingComments = comments
   //   .filter(comment => comment.thing_id === thing.id)
 
@@ -198,6 +202,8 @@ function makeMaliciousArticle(user) {
 function makeArticlesFixtures() {
   const testUsers = makeUsersArray()
   const testArticles = makeArticlesArray(testUsers)
+  console.log("^^^^^^^^^^", testArticles, 'testUsers: ', testUsers)
+
   // const testComments = makeCommentssArray(testUsers, testThings)
   return { testUsers, testArticles, /* testComments */ }
 }
@@ -213,7 +219,6 @@ function seedUsers(db, users) {
     ...user,
     password: bcrypt.hashSync(user.password, 1)
   }))
-  // console.log(preppedUsers)
   return db.into('new_leaves_users').insert(preppedUsers).returning('*')
   // .then(() => {
   // return db.raw(

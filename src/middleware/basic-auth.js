@@ -4,7 +4,6 @@ function requireAuth(req, res, next) {
   const authToken = req.get('Authorization') || ''
 
   let basicToken
-  console.log(authToken)
   if (!authToken.toLowerCase().startsWith('basic ')) {
     return res.status(401).json({ error: 'Missing basic token' })
   } else {

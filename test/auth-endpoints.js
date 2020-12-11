@@ -69,6 +69,7 @@ describe.only('Auth Endpoints', function () {
     })
 
     it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
+
       const userValidCreds = {
         username: testUser.username,
         password: testUser.password,
@@ -81,7 +82,6 @@ describe.only('Auth Endpoints', function () {
           algorithm: 'HS256',
         }
       )
-      console.log(expectedToken)
       return supertest(app)
         .post('/api/auth/login')
         .send(userValidCreds)
