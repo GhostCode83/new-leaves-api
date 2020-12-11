@@ -63,13 +63,11 @@ articlesRouter
   .route('/:article_id')
   .all(requireAuth)
   .all((req, res, next) => {
-    console.log(3)
-    console.log(req.app.get('db'),
-      req.params.article_id)
 
+    // console.log("*********")
     ArticlesService.getById(
       req.app.get('db'),
-      req.params.article_id
+      Number(req.params.article_id)
     )
       .then(article => {
         console.log(article)
@@ -79,6 +77,7 @@ articlesRouter
           })
         }
         res.article = article // save the article for the next middleware
+        console.log('hello', article)
         next() // don't forget to call next so the next middleware happens!
       })
       .catch(next)

@@ -213,23 +213,25 @@ function seedUsers(db, users) {
     ...user,
     password: bcrypt.hashSync(user.password, 1)
   }))
-  return db.into('new_leaves_users').insert(preppedUsers)
-    .then(() =>
-      db.raw(
-        `SELECT setval('new_leaves_users_id_seq', ?)`,
-        [users[users.length - 1].id],
-      )
-    )
+  // console.log(preppedUsers)
+  return db.into('new_leaves_users').insert(preppedUsers).returning('*')
+  // .then(() => {
+  // return db.raw(
+  //   `SELECT setval('new_leaves_users_id_seq', ?)`,
+  //   [users[users.length - 1].id],
+  // )
+  // }
+  // )
 }
 
 function seedArticlesTables(db, users, articles, /*comments = []*/) {
   return db.transaction(async trx => {
     await seedUsers(trx, users)
     await trx.into('new_leaves_articles').insert(articles)
-    await trx.raw(
-      `SELECT setval('new_leaves_articles_id_seq', ?)`,
-      [articles[articles.length - 1].id],
-    )
+    // await trx.raw(
+    //   `SELECT setval('new_leaves_articles_id_seq', ?)`,
+    //   [articles[articles.length - 1].id],
+    // )
     // if (comments.length) {
     //   await trx.into('blogful_comments').insert(comments)
     //   await trx.raw(
