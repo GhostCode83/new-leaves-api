@@ -16,6 +16,8 @@ describe.only('Articles Endpoints', () => {
     //testComments,
   } = helpers.makeArticlesFixtures()
 
+  console.log(testUsers)
+
 
   before('make knex instance', () => {
     db = knex({
@@ -35,6 +37,7 @@ describe.only('Articles Endpoints', () => {
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
           .get('/api/articles')
+          // .set('Authorization', helpers.makeAuthHeader(testUsers))
           .expect(200, [])
       })
     })
@@ -51,6 +54,7 @@ describe.only('Articles Endpoints', () => {
       it('responds with 200 and all of the articles', () => {
         return supertest(app)
           .get('/api/articles')
+          // .set('Authorization', helpers.makeAuthHeader(testUsers))
           .expect(200)
           .expect(response => {
             expect(response.body).to.be.a('array')
