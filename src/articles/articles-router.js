@@ -3,7 +3,7 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const ArticlesService = require('./articles-service')
-const { requireAuth } = require('../middleware/basic-auth')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const articlesRouter = express.Router()
 const jsonParser = express.json()
@@ -33,7 +33,6 @@ articlesRouter
 
 
     const { title, summary, article_type  /* , author */ } = req.body
-    console.log(title, summary, article_type)
 
     const newArticle = { title, summary, article_type }
 
@@ -82,7 +81,8 @@ articlesRouter
       title: xss(res.article.title),
       summary: xss(res.article.summary),
       article_type: res.article.article_type,
-      date_published: res.article.date_published
+      date_published: res.article.date_published,
+      author: res.article.author
     })
     console.log(res.json({
       id: res.article.id,

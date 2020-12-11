@@ -17,6 +17,11 @@ const AuthService = {
       algorithm: 'HS256',
     })
   },
+  veryifyJwt(token) {
+    return jwt.veryify(token, config.JWT_SECRET, {
+      algorithms: ['HS256']
+    })
+  },
   parseBasicToken(token) {
     return Buffer
       .from(token, 'base64')

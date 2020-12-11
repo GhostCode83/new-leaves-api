@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 function makeUsersArray() {
   return [
@@ -32,28 +33,32 @@ function makeUsersArray() {
 function makeArticlesArray(author) {
   return [
     {
-      title: 'First test thing!',
+      id: 1,
+      title: 'First test article!',
       article_type: 'Holiday',
       author: 1,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      title: 'Second test thing!',
+      id: 2,
+      title: 'Second test article!',
       article_type: 'Daily Practice',
       author: 2,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      title: 'Third test thing!',
+      id: 3,
+      title: 'Third test article!',
       article_type: 'Family',
       author: 3,
       date_published: '2029-01-22T16:28:32.615Z',
       summary: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
     },
     {
-      title: 'Fourth test thing!',
+      id: 4,
+      title: 'Fourth test article!',
       article_type: 'Adaptation',
       author: 4,
       date_published: '2029-01-22T16:28:32.615Z',
@@ -62,13 +67,13 @@ function makeArticlesArray(author) {
   ]
 }
 
-// function makeCommentsArray(users, things) {
+// function makeCommentsArray(users, articles) {
 //   return [
 //     {
 //       id: 1,
 //       rating: 2,
 //       text: 'First test comment!',
-//       thing_id: things[0].id,
+//       article_id: articles[0].id,
 //       user_id: users[0].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -76,7 +81,7 @@ function makeArticlesArray(author) {
 //       id: 2,
 //       rating: 3,
 //       text: 'Second test comment!',
-//       thing_id: things[0].id,
+//       article_id: articles[0].id,
 //       user_id: users[1].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -84,7 +89,7 @@ function makeArticlesArray(author) {
 //       id: 3,
 //       rating: 1,
 //       text: 'Third test comment!',
-//       thing_id: things[0].id,
+//       article_id: articles[0].id,
 //       user_id: users[2].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -92,7 +97,7 @@ function makeArticlesArray(author) {
 //       id: 4,
 //       rating: 5,
 //       text: 'Fourth test comment!',
-//       thing_id: things[0].id,
+//       article_id: articles[0].id,
 //       user_id: users[3].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -100,7 +105,7 @@ function makeArticlesArray(author) {
 //       id: 5,
 //       rating: 1,
 //       text: 'Fifth test comment!',
-//       thing_id: things[things.length - 1].id,
+//       article_id: articles[articles.length - 1].id,
 //       user_id: users[0].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -108,7 +113,7 @@ function makeArticlesArray(author) {
 //       id: 6,
 //       rating: 2,
 //       text: 'Sixth test comment!',
-//       thing_id: things[things.length - 1].id,
+//       article_id: articles[articles.length - 1].id,
 //       user_id: users[2].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -116,7 +121,7 @@ function makeArticlesArray(author) {
 //       id: 7,
 //       rating: 5,
 //       text: 'Seventh test comment!',
-//       thing_id: things[3].id,
+//       article_id: articles[3].id,
 //       user_id: users[0].id,
 //       date_created: '2029-01-22T16:28:32.615Z',
 //     },
@@ -125,26 +130,23 @@ function makeArticlesArray(author) {
 
 function makeExpectedArticle(users, article = []) {
   const user = users
-    .find(user => user.id === article.user_id)
-  console.log("000000000", user)
-  // const thingComments = comments
-  //   .filter(comment => comment.thing_id === thing.id)
+    .find(user => user.id === article.author)
+  // const articleComments = comments
+  //   .filter(comment => comment.article_id === article.id)
 
-  // const number_of_comments = thingComments.length
-  // const average_comment_rating = calculateAverageCommentRating(thingComments)
+  // const number_of_comments = articleComments.length
+  // const average_comment_rating = calculateAverageCommentRating(articleComments)
 
   return {
     id: article.id,
     title: article.title,
-    summary: article.content,
+    summary: article.summary,
     date_published: article.date_published,
+    article_type: article.article_type,
+    author: article.author,
     // number_of_comments,
     // average_comment_rating,
-    user: {
-      id: user.id,
-      username: user.username,
-      fullname: user.fullname,
-    },
+
   }
 }
 
@@ -158,9 +160,9 @@ function makeExpectedArticle(users, article = []) {
 //   return Math.round(sum / comments.length)
 // }
 
-// function makeExpectedThingComments(users, thingId, comments) {
+// function makeExpectedarticleComments(users, articleId, comments) {
 //   const expectedComments = comments
-//     .filter(comment => comment.thing_id === thingId)
+//     .filter(comment => comment.article_id === articleId)
 
 //   return expectedComments.map(comment => {
 //     const commentUser = users.find(user => user.id === comment.user_id)
@@ -202,9 +204,8 @@ function makeMaliciousArticle(user) {
 function makeArticlesFixtures() {
   const testUsers = makeUsersArray()
   const testArticles = makeArticlesArray(testUsers)
-  console.log("^^^^^^^^^^", testArticles, 'testUsers: ', testUsers)
 
-  // const testComments = makeCommentssArray(testUsers, testThings)
+  // const testComments = makeCommentssArray(testUsers, testarticles)
   return { testUsers, testArticles, /* testComments */ }
 }
 
@@ -259,9 +260,12 @@ function seedMaliciousArticles(db, user, article) {
     )
 }
 
-function makeAuthHeader(user) {
-  const token = Buffer.from(`${user.username}:${user.password}`).toString('base64')
-  return `Basic ${token}`
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const token = jwt.sign({ user_id: user.id }, secret, {
+    subject: user.username,
+    algorithm: 'HS256',
+  })
+  return `Bearer ${token}`
 }
 
 module.exports = {
