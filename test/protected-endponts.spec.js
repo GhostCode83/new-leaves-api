@@ -78,8 +78,6 @@ describe.only('Protected endpoints', function () {
           .set('Authorization', helpers.makeAuthHeader(invalidUser))
           .expect(401, { error: `Unauthorized request` })
       })
-
-
     })
   })
 })
