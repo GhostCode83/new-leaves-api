@@ -16,11 +16,10 @@ const serializeArticle = article => ({
   date_published: article.date_published
 })
 
-
 articlesRouter
   .route('/')
-  .all(requireAuth)
   .get((req, res, next) => {
+    console.log('If you can see me in the console, that means you are getting through to the articlesRouter.get.   Hooray, you did it!!!! ')
     const knexInstance = req.app.get('db')
     ArticlesService.getAllArticles(knexInstance)
       .then(articles => {

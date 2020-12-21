@@ -1,14 +1,17 @@
 const { expect } = require('chai')
+
 const knex = require('knex')
 const supertest = require('supertest')
 const app = require('../src/app')
+const AuthService = require('../src/auth/auth-service')
 const { makeArticlesArray } = require('./articles.fixtures')
 const { makeAuthHeader } = require('./test-helpers')
 const helpers = require('./test-helpers')
 
 
-describe.only('Articles Endpoints', () => {
+describe('Articles Endpoints', () => {
   let db
+  let token
 
   const {
     testUsers,
@@ -16,7 +19,6 @@ describe.only('Articles Endpoints', () => {
     //testComments,
   } = helpers.makeArticlesFixtures()
 
-  console.log(testUsers)
 
 
   before('make knex instance', () => {
@@ -27,22 +29,50 @@ describe.only('Articles Endpoints', () => {
     })
     app.set('db', db)
   })
+  // let newUser = {
+  //   "username": "apples100",
+  //   "fullname": "Fruit Stan",
+  //   "password": "oranges789"
+  // }
 
+  // .get('/api/auth/login')
+  // .send(tokenUser.username, tokenUser.password)
+
+
+  // })
+
+
+  //on the articles test call this endpoint followed by the login endpoint and then send it for the auth validation for all other endpoints
 
   beforeEach('clean the table', () => db.raw('TRUNCATE new_leaves_articles, new_leaves_users RESTART IDENTITY CASCADE'))
   after('disconnect from db', () => db.destroy())
 
   describe(`GET /api/articles`, () => {
-    context(`given no articles`, () => {
+    beforeEach('sign up test user', () => {
+      return helpers.seedUsers(db, testUsers)
+        .then(response => {
+          // console.log('********* test user 1**:  ', testUsers[0])
+          // console.log('****Response:  ', response)  //data not helpful
+          return supertest(app)
+            .post('/api/auth/login')
+            .send(testUsers[0])
+            .expect(response => {
+              // console.log('BBBBBBBBBB response from login post: ', response.body.authToken)
+              token = response.body.authToken
+            })
+        })
+    })
+    context.only(`given no articles`, () => {
       it(`responds with 200 and an empty list`, () => {
+        //console.log('WWWWWWWWWWWW token: ', token)
         return supertest(app)
           .get('/api/articles')
-          // .set('Authorization', helpers.makeAuthHeader(testUsers))
-          .expect(200, [])
+          .set('Authorization', 'bearer ' + token)
+          .expect(200)
       })
     })
 
-    context(`Given there are articles in the database`, () => {
+    context.skip(`Given there are articles in the database`, () => {
       const testArticles = makeArticlesArray();
 
       beforeEach('insert articles', () => {

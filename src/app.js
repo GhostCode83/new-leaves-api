@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const articlesRouter = require('./articles/articles-router')
 const authRouter = require('./auth/auth-router')
 const { requireAuth } = require('./middleware/jwt-auth')
+const usersRouter = require('../src/users/users-router')
 
 
 const app = express()
@@ -19,6 +20,7 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
+app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
