@@ -48,23 +48,19 @@ describe('Articles Endpoints', () => {
   after('disconnect from db', () => db.destroy())
 
   describe(`GET /api/articles`, () => {
-    beforeEach('sign up test user', () => {
+    beforeEach('seed database with users and log in the test user', () => {
       return helpers.seedUsers(db, testUsers)
         .then(response => {
-          // console.log('********* test user 1**:  ', testUsers[0])
-          // console.log('****Response:  ', response)  //data not helpful
           return supertest(app)
             .post('/api/auth/login')
             .send(testUsers[0])
             .expect(response => {
-              // console.log('BBBBBBBBBB response from login post: ', response.body.authToken)
               token = response.body.authToken
             })
         })
     })
-    context.only(`given no articles`, () => {
+    context(`given no articles`, () => {
       it(`responds with 200 and an empty list`, () => {
-        //console.log('WWWWWWWWWWWW token: ', token)
         return supertest(app)
           .get('/api/articles')
           .set('Authorization', 'bearer ' + token)
@@ -72,7 +68,7 @@ describe('Articles Endpoints', () => {
       })
     })
 
-    context.skip(`Given there are articles in the database`, () => {
+    context(`Given there are articles in the database`, () => {
       const testArticles = makeArticlesArray();
 
       beforeEach('insert articles', () => {
@@ -84,7 +80,7 @@ describe('Articles Endpoints', () => {
       it('responds with 200 and all of the articles', () => {
         return supertest(app)
           .get('/api/articles')
-          // .set('Authorization', helpers.makeAuthHeader(testUsers))
+          .set('Authorization', 'bearer ' + token)
           .expect(200)
           .expect(response => {
             expect(response.body).to.be.a('array')
@@ -136,14 +132,27 @@ describe('Articles Endpoints', () => {
   })
 
   describe(`POST /api/articles`, () => {
-    it(`creates a article, responding with 201 and a new article`, () => {
+    beforeEach('seed database with users and log in the test user', () => {
+      return helpers.seedUsers(db, testUsers)
+        .then(response => {
+          return supertest(app)
+            .post('/api/auth/login')
+            .send(testUsers[0])
+            .expect(response => {
+              token = response.body.authToken
+            })
+        })
+    })
+    it(`creates an article, responding with 201 and a new article`, () => {
       const newArticle = {
         title: 'this is the newArticle title',
         summary: 'this is the newArticle summary',
         article_type: 'Family'
       }
+
       return supertest(app)
         .post('/api/articles')
+        .set('Authorization', 'bearer ' + token)
         .send(newArticle)
         .expect(201)
         .expect(res => {
@@ -161,11 +170,17 @@ describe('Articles Endpoints', () => {
   })
 
   describe(`DELETE /api/articles/:article_id`, () => {
+
+    beforeEach(() =>
+      helpers.seedUsers(db, testUsers)
+    )
     context(`given no articles`, () => {
       it(`responds with 404`, () => {
         const articleId = 999999
         return supertest(app)
           .delete(`/api/articles/${articleId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+
           .expect(404)
       })
     })
@@ -185,6 +200,7 @@ describe('Articles Endpoints', () => {
 
         return supertest(app)
           .delete(`/api/articles/${idToRemove}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(204)
           .then(res => {
             supertest(app)

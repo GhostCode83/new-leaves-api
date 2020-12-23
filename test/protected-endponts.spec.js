@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.skip('Protected endpoints', function () {
+describe('Protected endpoints', function () {
   let db
 
   const {

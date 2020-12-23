@@ -11,6 +11,9 @@
     "start": "node src/server.js"
   },
   "keywords": [],
+  "engines": {
+    "node": "v12.18.4"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

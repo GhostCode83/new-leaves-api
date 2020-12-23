@@ -8,28 +8,21 @@ function requireAuth(req, res, next) {
 
   } else {
     bearerToken = authToken.slice(7, authToken.length)
-    console.log('xxxxxxxxxxx bearer token: ', bearerToken)
 
   } try {
-    console.log('hello, i am in the try')
-    // THE ISSUE IS AFTER THIS POINT AS THE ABOVE CONSOLE WORKS, BUT THOSE BELOW DO NOT
-    const payload = AuthService.veryifyJwt(bearerToken)
-    console.log('xxxxx payload:  ', payload)
+    const payload = AuthService.verifyJwt(bearerToken)
     AuthService.getUserWithUserName(
       req.app.get('db'),
       payload.sub,
     )
       .then(user => {
-        console.log('!!!!!!!!!!!! user:          ', user)
         if (!user)
           return res.status(401).json({ error: 'Unauthorized request' })
 
         req.user = user
-        // console.log(req.user)
         next()
       })
       .catch(err => {
-        console.log(err)
         next(err)
       })
   } catch (error) {

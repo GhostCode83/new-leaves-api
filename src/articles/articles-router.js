@@ -19,7 +19,6 @@ const serializeArticle = article => ({
 articlesRouter
   .route('/')
   .get((req, res, next) => {
-    console.log('If you can see me in the console, that means you are getting through to the articlesRouter.get.   Hooray, you did it!!!! ')
     const knexInstance = req.app.get('db')
     ArticlesService.getAllArticles(knexInstance)
       .then(articles => {
@@ -39,7 +38,6 @@ articlesRouter
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` }
         })
-    //newArticle.author = author
     ArticlesService.insertArticle(
       req.app.get('db'),
       newArticle
@@ -82,17 +80,9 @@ articlesRouter
       date_published: res.article.date_published,
       author: res.article.author
     })
-    console.log(res.json({
-      id: res.article.id,
-      title: xss(res.article.title),
-      summary: xss(res.article.summary),
-      article_type: res.article.article_type,
-      date_published: res.article.date_published
-    }))
+
   })
   .delete((req, res, next) => {
-    console.log(req.app.get('db'),
-      req.params.article_id)
     ArticlesService.deleteArticle(
       req.app.get('db'),
       req.params.article_id
@@ -116,16 +106,13 @@ articlesRouter
         }
       })
     }
-    console.log(req.app.get('db'),
-      req.params.article_id,
-      articleToUpdate)
+
     ArticlesService.updateArticle(
       req.app.get('db'),
       req.params.article_id,
       articleToUpdate
     )
       .then(numRowsAffected => {
-        console.log(numRowsAffected, res)
         res.status(204).end()
       })
       .catch(next)

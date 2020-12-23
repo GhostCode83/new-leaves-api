@@ -20,14 +20,16 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!')
+})
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!')
-})
+
 
 
 app.use(function errorHandler(error, req, res, next) {
@@ -35,7 +37,6 @@ app.use(function errorHandler(error, req, res, next) {
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } }
   } else {
-    console.log(error)
     response = { message: error.message, error }
   }
   res.status(500).json(response)

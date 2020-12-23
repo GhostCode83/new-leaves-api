@@ -173,8 +173,8 @@ function makeExpectedArticle(users, article = []) {
 //       date_created: comment.date_created,
 //       user: {
 //         id: commentUser.id,
-//         user_name: commentUser.user_name,
-//         full_name: commentUser.full_name,
+//         username: commentUser.username,
+//         fullname: commentUser.fullname,
 //         nickname: commentUser.nickname,
 //         date_created: commentUser.date_created,
 //       }
@@ -220,7 +220,6 @@ function seedUsers(db, users) {
     ...user,
     password: bcrypt.hashSync(user.password, 1)
   }))
-  // console.log(preppedUsers)
   return db.into('new_leaves_users').insert(preppedUsers).returning('*')
     /* */
     .then(() => {
@@ -238,17 +237,17 @@ function seedArticlesTables(db, users, articles, /*comments = []*/) {
     await seedUsers(trx, users)
     await trx.into('new_leaves_articles').insert(articles)
     /**/
-    await trx.raw(
-      `SELECT setval('new_leaves_articles_id_seq', ?)`,
-      [articles[articles.length - 1].id],
-    )
-    if (comments.length) {
-      await trx.into('blogful_comments').insert(comments)
-      await trx.raw(
-        `SELECT setval('blogful_comments_id_seq', ?)`,
-        [comments[comments.length - 1].id],
-      )
-    }
+    // await trx.raw(
+    //   `SELECT setval('new_leaves_articles_id_seq', ?)`,
+    //   [articles[articles.length - 1].id],
+    // )
+    // if (comments.length) {
+    //   await trx.into('blogful_comments').insert(comments)
+    //   await trx.raw(
+    //     `SELECT setval('blogful_comments_id_seq', ?)`,
+    //     [comments[comments.length - 1].id],
+    //   )
+    // }
     /* */
   }
   )

@@ -17,8 +17,8 @@ const AuthService = {
       algorithm: 'HS256',
     })
   },
-  veryifyJwt(token) {
-    return jwt.veryify(token, config.JWT_SECRET, {
+  verifyJwt(token) {
+    return jwt.verify(token, config.JWT_SECRET, {
       algorithms: ['HS256']
     })
   },
