@@ -23,17 +23,12 @@ describe('Articles Endpoints', () => {
 
   before('make knex instance', () => {
     db = knex({
-
       client: 'pg',
       connection: process.env.TEST_DATABASE_URL,
     })
     app.set('db', db)
   })
-  // let newUser = {
-  //   "username": "apples100",
-  //   "fullname": "Fruit Stan",
-  //   "password": "oranges789"
-  // }
+
 
   // .get('/api/auth/login')
   // .send(tokenUser.username, tokenUser.password)
@@ -60,6 +55,7 @@ describe('Articles Endpoints', () => {
         })
     })
     context(`given no articles`, () => {
+
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
           .get('/api/articles')

@@ -31,7 +31,6 @@ describe('Auth Endpoints', function () {
         testUsers,
       )
     )
-
     const requiredFields = ['username', 'password']
 
     requiredFields.forEach(field => {
@@ -52,7 +51,7 @@ describe('Auth Endpoints', function () {
       })
     })
 
-    it(`responds 400 'invalid username or password' when bad username`, () => {
+    it(`responds 400 'Incorrect username or password' when bad username`, () => {
       const userInvalidUser = { username: 'user-not', password: 'existy' }
       return supertest(app)
         .post('/api/auth/login')

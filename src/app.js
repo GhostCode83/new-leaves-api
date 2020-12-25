@@ -8,7 +8,6 @@ const articlesRouter = require('./articles/articles-router')
 const authRouter = require('./auth/auth-router')
 const { requireAuth } = require('./middleware/jwt-auth')
 const usersRouter = require('../src/users/users-router')
-const { CLIENT_ORIGIN } = require('./config')
 
 const app = express()
 
@@ -20,17 +19,14 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
-
 app.get('/', (req, res) => {
   res.send('Hello, world!')
 })
+
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
 app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
-
-
-
 
 app.use(function errorHandler(error, req, res, next) {
   let response
