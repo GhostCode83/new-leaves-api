@@ -18,6 +18,7 @@ const serializeArticle = article => ({
 
 articlesRouter
   .route('/')
+  .all(requireAuth)
   .get((req, res, next) => {
     const knexInstance = req.app.get('db')
     ArticlesService.getAllArticles(knexInstance)

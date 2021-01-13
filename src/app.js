@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
-app.use(requireAuth)
+// app.use(requireAuth)
 app.use('/api/articles', articlesRouter)
 
 app.use(function errorHandler(error, req, res, next) {

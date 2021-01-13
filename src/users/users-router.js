@@ -11,6 +11,7 @@ const { comparePasswords } = require('../auth/auth-service')
 const usersRouter = express.Router()
 const jsonParser = express.json()
 
+//sign-up
 usersRouter
   .post('/', jsonParser, (req, res, next) => {
     const { password, username, fullname } = req.body
