@@ -30,9 +30,12 @@ articlesRouter
   .post(jsonParser, (req, res, next) => {
 
 
-    const { title, summary, article_type  /* , author */ } = req.body
+    const { title, summary,   /*article_type */   /* , author */ } = req.body
 
-    const newArticle = { title, summary, article_type }
+    const newArticle = {
+      title, summary,
+      // article_type 
+    }
 
     for (const [key, value] of Object.entries(newArticle))
       if (value == null)
