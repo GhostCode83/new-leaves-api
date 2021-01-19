@@ -8,6 +8,7 @@ const articlesRouter = require('./articles/articles-router')
 const authRouter = require('./auth/auth-router')
 const { requireAuth } = require('./middleware/jwt-auth')
 const usersRouter = require('../src/users/users-router')
+const commentsRouter = require('../src/comments/comments-router')
 
 const app = express()
 
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
-// app.use(requireAuth)
+app.use('/api/comments', commentsRouter)
 app.use('/api/articles', articlesRouter)
 
 app.use(function errorHandler(error, req, res, next) {

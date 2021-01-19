@@ -13,7 +13,8 @@ const serializeArticle = article => ({
   title: xss(article.title),
   summary: xss(article.summary),
   article_type: article.article_type,
-  date_published: article.date_published
+  date_published: article.date_published,
+  author: article.author
 })
 
 articlesRouter
@@ -30,10 +31,10 @@ articlesRouter
   .post(jsonParser, (req, res, next) => {
 
 
-    const { title, summary,   /*article_type */   /* , author */ } = req.body
+    const { title, summary,   /*article_type */    author } = req.body
 
     const newArticle = {
-      title, summary,
+      title, summary, author
       // article_type 
     }
 
