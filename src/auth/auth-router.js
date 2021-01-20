@@ -9,6 +9,7 @@ authRouter
   .post('/login', jsonBodyParser, (req, res, next) => {
     const { username, password } = req.body
     const loginUser = { username, password }
+    console.log('loginUser:', loginUser)
 
     for (const [key, value] of Object.entries(loginUser))
       if (value == null) {
@@ -23,6 +24,7 @@ authRouter
     )
 
       .then(dbUser => {
+        console.log(dbUser)
         if (!dbUser) {
           return res.status(400).json({
             error: 'Incorrect username or password',
@@ -38,6 +40,7 @@ authRouter
 
             const sub = dbUser.username
             const payload = { user_id: dbUser.id }
+            console.log(payload, sub)
             res.send({
               authToken: AuthService.createJwt(sub, payload),
               userId: dbUser.id
