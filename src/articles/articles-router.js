@@ -29,13 +29,12 @@ articlesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
+    console.log(req)
 
-
-    const { title, summary,   /*article_type */    author } = req.body
-
+    const { title, summary, article_type, author } = req.body
+    console.log(article_type)
     const newArticle = {
-      title, summary, author
-      // article_type 
+      title, summary, author, article_type
     }
 
     for (const [key, value] of Object.entries(newArticle))
@@ -48,6 +47,7 @@ articlesRouter
       newArticle
     )
       .then(article => {
+        console.log(article)
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${article.id}`))
