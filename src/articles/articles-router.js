@@ -37,6 +37,7 @@ articlesRouter
       title, summary, author, article_type
     }
 
+
     for (const [key, value] of Object.entries(newArticle))
       if (value == null)
         return res.status(400).json({

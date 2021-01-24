@@ -1,6 +1,16 @@
-# Express Boilerplate!
+# New Leaves
 
-This is a boilerplate project used for starting new projects!
+https://new-leaves-app.vercel.app/
+
+As time passes and seasons in our lives change, we sometimes let go of old traditions and gain new ones. This app provides a place for users to 'grow new leaves', or learn new traditions through an exchange of ideas and community discourse. This is for anyone coming into a new phase of their lives and looking to see what other people have already done and to see if it might work for them. The goal is to help users transition from old leaves, which they no longer find useful, to new leaves that have great meaning in their lives.
+
+![Screen Shot 2021-01-24 at 9 56 41 AM](https://user-images.githubusercontent.com/58892815/105634242-155db700-5e2b-11eb-9615-155980c5f9a1.png)
+
+## Technologies used: ##
+- Node
+- Express
+- PostgreSQL 
+- JavaScript ES6
 
 ## Set up
 
